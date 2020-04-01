@@ -37,12 +37,12 @@ This component renders a sidebar module for a music player app page.
 * **Success Response:**
  
   * **Code:** 201 Created <br />
-    **Response:** `Successfully posted!`
+    **Content:** `Successfully posted!`
  
 * **Error Response:**
 
   * **Code:** 401 UNAUTHORIZED <br />
-    **Response:** `Unathrorized user, unable to post`
+    **Content:** `Unathrorized user, unable to post`
 
 **READ - Read related songs and related playlists**
 ----
@@ -60,11 +60,11 @@ This component renders a sidebar module for a music player app page.
 * **Success Response:**
  
   * **Code:** 200 OK <br />
-    **Response:** `Successfully fetched!`
-    **Content response** JSON Object of related songs and related playlists 
+    **content:** `Successfully fetched!` and JSON Object of related songs and related playlists 
   
-      **Related songs**
+      **Related songs and related playlists**
       {
+        {
       _id: Number,
       song_name: String,
       artist_name: String,
@@ -76,9 +76,7 @@ This component renders a sidebar module for a music player app page.
       song_comments: Number,
       artist_image_url: String,
       song_image_url: String
-    }
-
-      **Related playlists**
+    },
       {
         _id: Number,
         playlist_name: String,
@@ -90,6 +88,7 @@ This component renders a sidebar module for a music player app page.
         playlist_image_url: String,
         user_image_url: String
       }
+    }
 
  
 * **Error Response:**
@@ -100,7 +99,7 @@ This component renders a sidebar module for a music player app page.
 **Update - Update a related song**
 ----
 
-* **URL** /songs/:songId/related/songs
+* **URL** /songs/:songId/related/relatedSongs
 
 * **Method:** `PUT`
   
@@ -130,3 +129,31 @@ This component renders a sidebar module for a music player app page.
 
   * **Code:** 401 UNAUTHORIZED <br />
     **Response:** `Unathrorized user, unable to update`
+
+**Delete - Delete a related song**
+----
+
+* **URL** /songs/:songId/related/relatedSongs/:relatedSongId
+
+* **Method:** `DELETE`
+  
+*  **URL Params**
+
+   **Required:** `songId=[integer]` && `relatedSongID=[integer]`
+
+* **Data Params** NA
+
+* **Success Response:**
+ 
+  * **Code:** 200 OK <br />
+    **Response Content:** `Successfully updated!`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Response Content:** `Related song does not exist, cant be deleted`
+
+    or
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Response Content:** `You are unauthorized to delete this song`
