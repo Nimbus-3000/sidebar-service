@@ -13,7 +13,7 @@ This component renders a sidebar module for a music player app page.
 **Create - Add a related song**
 ----
 
-* **URL** /songs/:songId/related/songs
+* **URL** /songs/:songId/related/relatedSongs
 
 * **Method:** `POST`
   
