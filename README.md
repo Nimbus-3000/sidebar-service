@@ -60,10 +60,10 @@ This component renders a sidebar module for a music player app page.
 * **Success Response:**
  
   * **Code:** 200 OK <br />
-    **Response:** `Successfully posted!`
+    **Response:** `Successfully fetched!`
     **Content response** JSON Object of related songs and related playlists 
   
-      Related songs
+      **Related songs**
       {
       _id: Number,
       song_name: String,
@@ -78,7 +78,7 @@ This component renders a sidebar module for a music player app page.
       song_image_url: String
     }
 
-      Related playlists
+      **Related playlists**
       {
         _id: Number,
         playlist_name: String,
@@ -124,7 +124,7 @@ This component renders a sidebar module for a music player app page.
 * **Success Response:**
  
   * **Code:** 201 Created <br />
-    **Response:** `Successfully posted!`
+    **Response:** `Successfully updated!`
  
 * **Error Response:**
 
