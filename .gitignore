@@ -4,3 +4,7 @@ bundle.js
 users.csv
 songs.csv
 playlist.csv
+song.csv
+songsInPlaylist.csv
+reposts.csv
+likes.csv

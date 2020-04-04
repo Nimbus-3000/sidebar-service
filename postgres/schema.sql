@@ -30,25 +30,23 @@ CREATE TABLE playlists (
 CREATE TABLE songs (
   id serial NOT NULL,
   song_name VARCHAR(30),
-  artist_name VARCHAR(30),
-  artist_location VARCHAR(30),
-  artist_followers VARCHAR(30),
   song_plays INTEGER,
   song_comments INTEGER,
-  artist_image_url VARCHAR(300),
   song_image_url VARCHAR(300),
   song_genre VARCHAR(30),
   id_playlist INTEGER,
+  id_user INTEGER,
   PRIMARY KEY (id),
-  FOREIGN KEY (id_playlist) REFERENCES playlists (id)
+  FOREIGN KEY (id_playlist) REFERENCES playlists (id),
+  FOREIGN KEY (id_user) REFERENCES users (id)
 );
 
 CREATE TABLE songsInPlaylist(
   id serial NOT NULL,
-  playlist_id INTEGER,
+  id_playlist INTEGER,
   id_songs INTEGER,
   PRIMARY KEY (id),
-  FOREIGN KEY (playlist_id) REFERENCES playlists (id),
+  FOREIGN KEY (id_playlist) REFERENCES playlists (id),
   FOREIGN KEY (id_songs) REFERENCES songs (id)
 );
 

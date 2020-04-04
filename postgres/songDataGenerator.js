@@ -4,18 +4,15 @@ const faker = require('faker');
 
 // headers for all mt SQL tables
 const songWriter = createCsvWriter({
-  path: './songs.csv',
+  path: './song.csv',
   header: [
     {id: 'song_name', title: 'SONG_NAME'},
-    {id: 'artist_name', title: 'ARTIST_NAME'},
-    {id: 'artist_location', title: 'LOCATION'},
-    {id: 'artist_followers', title: 'ARTIST_NAME'},
-    {id: 'song_plays', title: 'ARTIST_NAME'},
-    {id: 'song_comments', title: 'ARTIST_NAME'},
-    {id: 'artist_image_url', title: 'ARTIST_NAME'},
-    {id: 'song_image_url', title: 'ARTIST_NAME'},
-    {id: 'song_genre', title: 'GENRE'},
-    {id: 'id_playlist', title: 'ID_PLAYLIST'}
+    {id: 'song_plays', title: 'SONG_PLAYS'},
+    {id: 'song_comments', title: 'SONG_COMMENT'},
+    {id: 'song_image_url', title: 'SONG_IMAGE_URL'},
+    {id: 'song_genre', title: 'SONG_GENRE'},
+    {id: 'id_playlist', title: 'ID_PLAYLIST'},
+    {id: 'id_user', title: 'ID_USER'}
   ]
 });
 
@@ -41,12 +38,42 @@ const playlistWriter = createCsvWriter({
   ]
 });
 
+const songsInPlaylistWriter = createCsvWriter({
+  path: './songsInPlaylist.csv',
+  header: [
+    {id: 'id_playlist', title: 'ID_PLAYLIST'},
+    {id: 'id_songs', title: 'ID_SONGS'}
+  ]
+});
+
+const likesWriter = createCsvWriter({
+  path: './likes.csv',
+  header: [
+    {id: 'id_songs', title: 'ID_SONGS'},
+    {id: 'id_users', title: 'ID_USERS'}
+  ]
+});
+
+const repostWriter = createCsvWriter({
+  path: './reposts.csv',
+  header: [
+    {id: 'id_songs', title: 'ID_SONGS'},
+    {id: 'id_users', title: 'ID_USERS'}
+  ]
+})
+
 // all the bars ----------------------
 const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 const bar2 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 const bar3 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+
+const bar4 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+
+const bar5 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+
+const bar6 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 // helper functions and variables ------------------
 const randRange = (min, max) => Math.floor((Math.random() * (max - min)) + min);
@@ -56,18 +83,15 @@ const genres = ['hip-hop', 'rap', 'country', 'alternative', 'edm', 'indi', 'rock
 // creating my array of objects --------------------
 const generateSongs = () => {
   const songs = [];
-  for(let i = 0; i < 1000; i++){
+  for(let i = 0; i < 100; i++){
     const song = {};
     song.song_name = `${faker.lorem.words()}`;
-    song.artist_name = `${faker.name.findName()}`;
-    song.artist_location = `${faker.address.city()}`;
-    song.artist_followers = randRange(10000, 100000);
     song.song_plays = randRange(10000, 100000);
     song.song_comments = randRange(10000, 100000);
-    song.artist_image_url = `${faker.image.avatar()}`;
     song.song_image_url = `${faker.image.image()}`;
     song.song_genre = genres[randRange(0, genres.length -1 )];
     song.id_playlist = randRange(1, 1000);
+    song.id_user = randRange(1, 1000)
     songs.push(song);
     bar.increment();
   }
@@ -90,7 +114,7 @@ const generateUsers = () => {
 
 const generatePlaylists = () => {
   const playlists = [];
-  for(let i = 0; i < 100; i++) {
+  for(let i = 0; i < 1000; i++) {
     const playlist = {};
     playlist.playlist_name = `${faker.lorem.words()}`;
     playlist.playlist_likes = randRange(1000, 10000);
@@ -103,8 +127,46 @@ const generatePlaylists = () => {
   }
   return playlists;
 }
+
+const generateSongsInPlaylist = () => {
+  const songsInPlaylist = [];
+  for(let i = 0; i < 100000; i++){
+    const pair = {};
+    pair.id_playlist = randRange(1, 500000);
+    pair.id_songs = randRange(1, 10000000);
+    songsInPlaylist.push(pair);
+    bar4.increment();
+  }
+  return songsInPlaylist;
+};
+
+const generateLikes = () => {
+  const likes = [];
+  for(let i = 0; i < 1000; i++){
+    const like = {};
+    like.id_songs = randRange(1, 10000000);
+    like.id_users = randRange(1, 500000);
+    likes.push(like);
+    bar5.increment();
+  }
+  return likes;
+}
+
+const generateReposts = () => {
+  const reposts = [];
+  for(let i = 0; i < 1000; i++){
+    const repost = {};
+    repost.id_songs = randRange(1, 10000000);
+    repost.id_users = randRange(1, 500000);
+    reposts.push(repost);
+    bar6.increment();
+  }
+  return reposts;
+}
+
+
 // CSVing array of objects
-let count = 10000
+let count = 100
 
 const songsCreation = () => {
   if(count !== 0) {
@@ -129,16 +191,49 @@ const userCreation = () => {
 
 const playlistsCreation = () => {
   let playlists = generatePlaylists();
-  playlistWriter.writeRecords(playlists)
+  playlistWriter.writeRecords(playlists);
   bar3.stop();
   console.log('Playlists Done')
 }
 
+const songsInPlaylistCreation = () => {
+  let pairs = generateSongsInPlaylist();
+  songsInPlaylistWriter.writeRecords(pairs);
+  bar4.stop()
+  console.log('Pairs Done')
+}
+
+const likesCreation = () => {
+  let likes = generateLikes();
+  likesWriter.writeRecords(likes);
+  bar5.stop();
+  console.log('Likes Done')
+}
+
+const repostsCreation = () => {
+  let reposts = generateReposts();
+  repostWriter.writeRecords(reposts);
+  bar6.stop();
+  console.log('Reposts Done');
+}
 
 console.log('Starting');
-// bar.start(10000000, 0);
-// bar2.start(100000, 0);
-bar3.start(100, 0);
-// songsCreation();
-// userCreation();
+//bars
+bar.start(10000, 0); //songs
+bar2.start(100000, 0); //users
+bar3.start(100, 0); //playlists
+bar4.start(100000, 0); //pairs
+bar5.start(1000, 0); //likes
+bar6.start(1000, 0); //reposts
+
+//creation calls
+songsCreation();
+userCreation();
 playlistsCreation();
+songsInPlaylistCreation();
+likesCreation();
+repostsCreation();
+
+
+
+// COPY users (user_name, user_imageUrl, user_location, user_follower_count) FROM '/Users/Jono/Desktop/HackReactor/sidebar-service/postgres/users.csv' DELIMITER',' CSV HEADER;
