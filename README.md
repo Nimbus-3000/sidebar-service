@@ -13,7 +13,7 @@ This component renders a sidebar module for a music player app page.
 **Create - Add a related song**
 ----
 
-* **URL** /songs/:songId/related/relatedSongs
+* **URL** api/songs/:songId/related/
 
 * **Method:** `POST`
   
@@ -99,7 +99,7 @@ This component renders a sidebar module for a music player app page.
 **Update - Update a related song**
 ----
 
-* **URL** /songs/:songId/related/relatedSongs
+* **URL** /songs/:songId/related/
 
 * **Method:** `PUT`
   
@@ -133,7 +133,7 @@ This component renders a sidebar module for a music player app page.
 **Delete - Delete a related song**
 ----
 
-* **URL** /songs/:songId/related/relatedSongs/:relatedSongId
+* **URL** /songs/:songId/related/:relatedSongId
 
 * **Method:** `DELETE`
   
