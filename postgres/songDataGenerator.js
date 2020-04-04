@@ -15,6 +15,7 @@ const songWriter = createCsvWriter({
     {id: 'artist_image_url', title: 'ARTIST_NAME'},
     {id: 'song_image_url', title: 'ARTIST_NAME'},
     {id: 'song_genre', title: 'GENRE'},
+    {id: 'id_playlist', title: 'ID_PLAYLIST'}
   ]
 });
 
@@ -36,6 +37,7 @@ const playlistWriter = createCsvWriter({
     {id: 'playlist_reposts', title: 'PLAYLIST_REPOSTS'},
     {id: 'playlist_image_url', title: 'PLAYLIST_IMAGE_URL'},
     {id: 'playlist_genre', title: 'PLAYLIST_GENRE'},
+    {id: 'id_users', title: 'ID_USERS'},
   ]
 });
 
@@ -43,6 +45,8 @@ const playlistWriter = createCsvWriter({
 const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 const bar2 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+
+const bar3 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 // helper functions and variables ------------------
 const randRange = (min, max) => Math.floor((Math.random() * (max - min)) + min);
@@ -63,6 +67,7 @@ const generateSongs = () => {
     song.artist_image_url = `${faker.image.avatar()}`;
     song.song_image_url = `${faker.image.image()}`;
     song.song_genre = genres[randRange(0, genres.length -1 )];
+    song.id_playlist = randRange(1, 1000);
     songs.push(song);
     bar.increment();
   }
@@ -71,7 +76,7 @@ const generateSongs = () => {
 
 const generateUsers = () => {
   const users = [];
-  for(let i = 0; i < 1000; i++) {
+  for(let i = 0; i < 100000; i++) {
     const user = {};
     user.user_name = `${faker.name.findName()}`;
     user.user_imageUrl = `${faker.image.avatar()}`;
@@ -83,8 +88,23 @@ const generateUsers = () => {
   return users;
 }
 
+const generatePlaylists = () => {
+  const playlists = [];
+  for(let i = 0; i < 100; i++) {
+    const playlist = {};
+    playlist.playlist_name = `${faker.lorem.words()}`;
+    playlist.playlist_likes = randRange(1000, 10000);
+    playlist.playlist_reposts = randRange(1000, 10000);
+    playlist.playlist_image_url = `${faker.image.image()}`;
+    playlist.playlist_genre = genres[randRange(0, genres.length - 1)];
+    playlist.id_users = randRange(1, 1000);
+    playlists.push(playlist);
+    bar3.increment();
+  }
+  return playlists;
+}
 // CSVing array of objects
-var count = 10000
+let count = 10000
 
 const songsCreation = () => {
   if(count !== 0) {
@@ -107,9 +127,18 @@ const userCreation = () => {
   console.log('Users Done')
 }
 
+const playlistsCreation = () => {
+  let playlists = generatePlaylists();
+  playlistWriter.writeRecords(playlists)
+  bar3.stop();
+  console.log('Playlists Done')
+}
+
 
 console.log('Starting');
-bar.start(10000000, 0);
-bar2.start(1000, 0);
-songsCreation();
-userCreation();
+// bar.start(10000000, 0);
+// bar2.start(100000, 0);
+bar3.start(100, 0);
+// songsCreation();
+// userCreation();
+playlistsCreation();
