@@ -83,7 +83,7 @@ const genres = ['hip-hop', 'rap', 'country', 'alternative', 'edm', 'indi', 'rock
 // creating my array of objects --------------------
 const generateSongs = () => {
   const songs = [];
-  for(let i = 0; i < 100; i++){
+  for(let i = 0; i < 10000; i++){
     const song = {};
     song.song_name = `${faker.lorem.words()}`;
     song.song_plays = randRange(10000, 100000);
@@ -100,7 +100,7 @@ const generateSongs = () => {
 
 const generateUsers = () => {
   const users = [];
-  for(let i = 0; i < 100000; i++) {
+  for(let i = 0; i < 500; i++) {
     const user = {};
     user.user_name = `${faker.name.findName()}`;
     user.user_imageUrl = `${faker.image.avatar()}`;
@@ -114,7 +114,7 @@ const generateUsers = () => {
 
 const generatePlaylists = () => {
   const playlists = [];
-  for(let i = 0; i < 1000; i++) {
+  for(let i = 0; i < 500; i++) {
     const playlist = {};
     playlist.playlist_name = `${faker.lorem.words()}`;
     playlist.playlist_likes = randRange(1000, 10000);
@@ -130,7 +130,7 @@ const generatePlaylists = () => {
 
 const generateSongsInPlaylist = () => {
   const songsInPlaylist = [];
-  for(let i = 0; i < 100000; i++){
+  for(let i = 0; i < 1000; i++){
     const pair = {};
     pair.id_playlist = randRange(1, 500000);
     pair.id_songs = randRange(1, 10000000);
@@ -142,7 +142,7 @@ const generateSongsInPlaylist = () => {
 
 const generateLikes = () => {
   const likes = [];
-  for(let i = 0; i < 1000; i++){
+  for(let i = 0; i < 20000; i++){
     const like = {};
     like.id_songs = randRange(1, 10000000);
     like.id_users = randRange(1, 500000);
@@ -154,7 +154,7 @@ const generateLikes = () => {
 
 const generateReposts = () => {
   const reposts = [];
-  for(let i = 0; i < 1000; i++){
+  for(let i = 0; i < 20000; i++){
     const repost = {};
     repost.id_songs = randRange(1, 10000000);
     repost.id_users = randRange(1, 500000);
@@ -166,11 +166,16 @@ const generateReposts = () => {
 
 
 // CSVing array of objects
-let count = 100
+let songCount = 1000
+let userCount = 1000
+let playlistCount = 1000
+let pairCount = 1000
+let likesCount = 1000
+let repostsCount = 1000
 
 const songsCreation = () => {
-  if(count !== 0) {
-    count--
+  if(songCount !== 0) {
+    songCount--
     let songs = generateSongs()
     songWriter.writeRecords(songs)
       .then(() => {
@@ -178,61 +183,101 @@ const songsCreation = () => {
       });
   } else {
     bar.stop();
-    console.log('Songs Done')
+    console.log('Songs Done');
+    bar2.start(500000, 0); //users
+    userCreation();
   }
 };
 
 const userCreation = () => {
-  let users = generateUsers();
-  userWriter.writeRecords(users);
-  bar2.stop();
-  console.log('Users Done')
-}
+  if(userCount !== 0) {
+    userCount--
+    let users = generateUsers();
+    userWriter.writeRecords(users)
+      .then(() => {
+        userCreation()
+      });
+  } else {
+    bar2.stop();
+    console.log('Users Done')
+    bar3.start(500000, 0); //playlists
+    playlistsCreation();
+  }
+};
 
 const playlistsCreation = () => {
-  let playlists = generatePlaylists();
-  playlistWriter.writeRecords(playlists);
-  bar3.stop();
-  console.log('Playlists Done')
+  if(playlistCount !== 0){
+    playlistCount--
+    let playlists = generatePlaylists();
+    playlistWriter.writeRecords(playlists)
+      .then(() =>{
+        playlistsCreation()
+      });
+  } else { 
+    bar3.stop();
+    console.log('Playlists Done');
+    bar4.start(1000000, 0); //pairs
+    songsInPlaylistCreation();
+  }
 }
 
 const songsInPlaylistCreation = () => {
-  let pairs = generateSongsInPlaylist();
-  songsInPlaylistWriter.writeRecords(pairs);
-  bar4.stop()
-  console.log('Pairs Done')
+  if(pairCount !== 0){
+    pairCount--
+    let pairs = generateSongsInPlaylist();
+    songsInPlaylistWriter.writeRecords(pairs)
+      .then(() => {
+        songsInPlaylistCreation()
+      });
+  } else {
+    bar4.stop();
+    console.log('Pairs Done');
+    bar5.start(20000000, 0); //likes
+    likesCreation();
+  }
 }
 
 const likesCreation = () => {
-  let likes = generateLikes();
-  likesWriter.writeRecords(likes);
-  bar5.stop();
-  console.log('Likes Done')
+  if(likesCount !== 0){
+    likesCount--
+    let likes = generateLikes();
+    likesWriter.writeRecords(likes)
+      .then(() => {
+        likesCreation()
+      });
+  } else {
+    bar5.stop();
+    console.log('Likes Done');
+    bar6.start(20000000, 0); //reposts
+    repostsCreation();
+  }
 }
 
 const repostsCreation = () => {
-  let reposts = generateReposts();
-  repostWriter.writeRecords(reposts);
-  bar6.stop();
-  console.log('Reposts Done');
+  if(repostsCount !== 0){
+    repostsCount--
+    let reposts = generateReposts();
+    repostWriter.writeRecords(reposts)
+      .then(() => {
+        repostsCreation()
+      });
+  } else {
+    bar6.stop();
+    console.log('Reposts Done');
+  }
 }
 
 console.log('Starting');
 //bars
-bar.start(10000, 0); //songs
-bar2.start(100000, 0); //users
-bar3.start(100, 0); //playlists
-bar4.start(100000, 0); //pairs
-bar5.start(1000, 0); //likes
-bar6.start(1000, 0); //reposts
+bar.start(10000000, 0); //songs
 
 //creation calls
 songsCreation();
-userCreation();
-playlistsCreation();
-songsInPlaylistCreation();
-likesCreation();
-repostsCreation();
+// userCreation();
+// playlistsCreation();
+// songsInPlaylistCreation();
+// likesCreation();
+// repostsCreation();
 
 
 

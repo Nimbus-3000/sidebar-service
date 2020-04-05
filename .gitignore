@@ -1,10 +1,9 @@
 node_modules
 AWSCLIV2.pkg
 bundle.js
-users.csv
-songs.csv
+likes.csv
 playlist.csv
+reposts.csv
 song.csv
 songsInPlaylist.csv
-reposts.csv
-likes.csv
+users.csv
