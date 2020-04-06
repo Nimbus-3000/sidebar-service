@@ -215,8 +215,8 @@ const songsCreation = () => {
   } else {
     bar.stop();
     console.log('Songs Done');
-    // bar2.start(USER_COUNT, 0); //users
-    // userCreation();
+    bar2.start(USER_COUNT, 0); //users
+    userCreation();
   }
 };
 
@@ -295,17 +295,13 @@ const repostsCreation = () => {
   } else {
     bar6.stop();
     console.log('Reposts Done');
+    console.log('JOBS DONE!')
   }
 }
 
 console.log('Starting');
-//bars
 bar.start(SONG_COUNT, 0); //songs
 
-//creation calls
+//THIS STARTS IT ALL
 songsCreation();
 
-
-
-
-// COPY users (user_name, user_imageUrl, user_location, user_follower_count) FROM '/Users/Jono/Desktop/HackReactor/sidebar-service/postgres/users.csv' DELIMITER',' CSV HEADER;
