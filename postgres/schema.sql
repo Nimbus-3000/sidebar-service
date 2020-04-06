@@ -67,3 +67,6 @@ CREATE TABLE reposts (
   FOREIGN KEY (id_songs) REFERENCES songs (id),
   FOREIGN KEY (id_users) REFERENCES users (id)
 );
+
+--Note per jordan, remove foreign key prior to seeding then add post to optimize speed
+--ADD etc. will exist in another table
