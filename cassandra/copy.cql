@@ -1,0 +1,1 @@
+COPY genre(genre_type, song_id, song_name, song_user_id, song_likes, song_reposts, song_plays, song_comments, relatedPlaylist, song_image_url) FROM '/Users/Jono/Desktop/HackReactor/sidebar-service/cassandra/test.csv' WITH DELIMITER=',' AND HEADER=TRUE;
