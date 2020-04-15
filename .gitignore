@@ -10,3 +10,4 @@ users.csv
 cassPlaylists.csv
 cassSong.csv
 cassUser.csv
+newrelic_agent.log
